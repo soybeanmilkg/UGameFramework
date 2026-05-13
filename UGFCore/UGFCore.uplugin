@@ -19,6 +19,17 @@
 			"Name": "UGFCore",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ModularGameplayActors",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "ModularGameplay",
+			"Enabled": true
 		}
 	]
 }
