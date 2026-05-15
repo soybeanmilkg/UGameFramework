@@ -167,6 +167,12 @@ bool UGameExperienceManagerComponent::ShouldShowLoadingScreen(FString& OutReason
 void UGameExperienceManagerComponent::SetCurrentExperience(const FPrimaryAssetId& ExperienceId)
 {
 	const TSharedPtr<FStreamableHandle> Handle = UAssetManager::Get().LoadPrimaryAsset(ExperienceId);
+	if (!Handle.IsValid())
+	{
+		UE_LOG(LogGameExperience, Error, TEXT("[UGameExperienceManagerComponent] Failed to load experience asset {'%s'}."), *ExperienceId.ToString());
+		return;
+	}
+
 	Handle->WaitUntilComplete();
 	const UGameExperienceDefinition* Experience = Cast<UGameExperienceDefinition>(Handle->GetLoadedAsset());
 
