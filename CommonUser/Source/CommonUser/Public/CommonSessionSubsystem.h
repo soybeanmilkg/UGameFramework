@@ -16,11 +16,15 @@
 #endif
 
 
-
 class APlayerController;
 class AOnlineBeaconHost;
 class ULocalPlayer;
-namespace ETravelFailure { enum Type : int; }
+
+namespace ETravelFailure
+{
+	enum Type : int;
+}
+
 struct FOnlineResultInformation;
 
 #if COMMONUSER_OSSV1
@@ -158,7 +162,6 @@ public:
 
 	UE::Online::FOnlineSessionId SessionID;
 #endif // COMMONUSER_OSSV1
-
 };
 
 
@@ -256,6 +259,7 @@ enum class ECommonSessionInformationState : uint8
 	Matchmaking,
 	InGame
 };
+
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FCommonSessionOnSessionInformationChanged, ECommonSessionInformationState /*SessionStatus*/, const FString& /*GameMode*/, const FString& /*MapName*/);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FCommonSessionOnSessionInformationChanged_Dynamic, ECommonSessionInformationState, SessionStatus, const FString&, GameMode, const FString&, MapName);
 
@@ -273,18 +277,18 @@ class UCommonSessionSubsystem : public UGameInstanceSubsystem
 	GENERATED_BODY()
 
 public:
-	UCommonSessionSubsystem() { }
+	UCommonSessionSubsystem() {}
 
 	COMMONUSER_API virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	COMMONUSER_API virtual void Deinitialize() override;
 	COMMONUSER_API virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 
 	/** Creates a host session request with default options for online games, this can be modified after creation */
-	UFUNCTION(BlueprintCallable, Category = Session)
+	UFUNCTION(BlueprintCallable, Category=Session)
 	COMMONUSER_API virtual UCommonSession_HostSessionRequest* CreateOnlineHostSessionRequest();
 
 	/** Creates a session search object with default options to look for default online games, this can be modified after creation */
-	UFUNCTION(BlueprintCallable, Category = Session)
+	UFUNCTION(BlueprintCallable, Category=Session)
 	COMMONUSER_API virtual UCommonSession_SearchSessionRequest* CreateOnlineSearchSessionRequest();
 
 	/** Creates a new online game using the session request information, if successful this will start a hard map transfer */
@@ -306,6 +310,12 @@ public:
 	/** Clean up any active sessions, called from cases like returning to the main menu */
 	UFUNCTION(BlueprintCallable, Category=Session)
 	COMMONUSER_API virtual void CleanUpSessions();
+
+	UFUNCTION(BlueprintCallable, Category=Session)
+	COMMONUSER_API virtual bool IsSessionOwner(APlayerController* Player);
+
+	UFUNCTION(BlueprintCallable, Category=Session)
+	COMMONUSER_API virtual FString GetSessionInfo();
 
 	//////////////////////////////////////////////////////////////////////
 	// Events
@@ -353,7 +363,7 @@ public:
 	UPROPERTY(Config)
 	bool bUseLobbiesVoiceChatDefault = false;
 
-	/** Enables reservation beacon flow prior to server travel when creating or joining a game session */ 
+	/** Enables reservation beacon flow prior to server travel when creating or joining a game session */
 	UPROPERTY(Config)
 	bool bUseBeacons = true;
 
