@@ -314,9 +314,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category=Session)
 	COMMONUSER_API virtual bool IsSessionOwner(APlayerController* Player);
 
-	UFUNCTION(BlueprintCallable, Category=Session)
-	COMMONUSER_API virtual FString GetSessionInfo();
-
 	//////////////////////////////////////////////////////////////////////
 	// Events
 

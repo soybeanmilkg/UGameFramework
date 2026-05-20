@@ -738,7 +738,9 @@ void UCommonSessionSubsystem::OnUpdateSessionComplete(FName SessionName, bool bW
 void UCommonSessionSubsystem::OnEndSessionComplete(FName SessionName, bool bWasSuccessful)
 {
 	UE_LOG(LogCommonSession, Log, TEXT("OnEndSessionComplete(SessionName: %s, bWasSuccessful: %s)"), *SessionName.ToString(), bWasSuccessful ? TEXT("true") : TEXT("false"));
-	CleanUpSessions();
+
+	// End Session 后不一定要清除掉 Session
+	// CleanUpSessions();
 }
 
 void UCommonSessionSubsystem::OnDestroySessionComplete(FName SessionName, bool bWasSuccessful)
@@ -1092,57 +1094,6 @@ bool UCommonSessionSubsystem::IsSessionOwner(APlayerController* Player)
 	}
 
 	return false;
-}
-
-FString UCommonSessionSubsystem::GetSessionInfo()
-{
-	IOnlineSubsystem* OnlineSub = Online::GetSubsystem(GetWorld());
-	check(OnlineSub);
-	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-	check(Sessions);
-
-	const int32 NumSessions = Sessions->GetNumSessions();
-	FString Info = FString::Printf(TEXT("Session Num = %d. "), NumSessions);
-	if (const FNamedOnlineSession* Session = Sessions->GetNamedSession(NAME_GameSession))
-	{
-		FString SessionState = "None";
-		switch (Session->SessionState)
-		{
-			case EOnlineSessionState::NoSession:
-				SessionState = TEXT("NoSession");
-				break;
-			case EOnlineSessionState::Creating:
-				SessionState = TEXT("Creating");
-				break;
-			case EOnlineSessionState::Pending:
-				SessionState = TEXT("Pending");
-				break;
-			case EOnlineSessionState::Starting:
-				SessionState = TEXT("Starting");
-				break;
-			case EOnlineSessionState::InProgress:
-				SessionState = TEXT("InProgress");
-				break;
-			case EOnlineSessionState::Ending:
-				SessionState = TEXT("Ending");
-				break;
-			case EOnlineSessionState::Ended:
-				SessionState = TEXT("Ended");
-				break;
-			case EOnlineSessionState::Destroying:
-				SessionState = TEXT("Destroying");
-				break;
-		}
-		FString NamedInfo = FString::Printf(TEXT("FNamedOnlineSession: Name = %s, HostingPlayerNum = %d, bHosting = %s, LocalOwnerId = %s, SessionState = %s, "),
-		                                    *Session->SessionName.ToString(), Session->HostingPlayerNum, Session->bHosting ? TEXT("true") : TEXT("false"), Session->LocalOwnerId ? *Session->LocalOwnerId->ToString() : TEXT("None"), *SessionState);
-
-		FString OnlineSessionInfo = FString::Printf(TEXT("FOnlineSession: OwningUserId = %s, OwningUserName = %s, NumOpenPrivateConnections = %d, NumOpenPublicConnections = %d."),
-		                                            Session->OwningUserId ? *Session->OwningUserId->ToString() : TEXT("None"), *Session->OwningUserName, Session->NumOpenPrivateConnections, Session->NumOpenPublicConnections);
-
-		return Info + NamedInfo + OnlineSessionInfo;
-	}
-
-	return Info + TEXT(" No Session Found");
 }
 
 #if COMMONUSER_OSSV1
