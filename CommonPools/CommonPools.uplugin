@@ -1,0 +1,23 @@
+﻿{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "CommonPools",
+	"Description": "",
+	"Category": "Other",
+	"CreatedBy": "Soybeanmilk",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "CommonPools",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
