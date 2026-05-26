@@ -118,7 +118,7 @@ void UGameSettingListEntrySetting_Discrete::SetSetting(UGameSetting* InSetting)
 	DiscreteSetting = Cast<UGameSettingValueDiscrete>(InSetting);
 
 	Super::SetSetting(InSetting);
-	
+
 	Refresh();
 }
 
@@ -255,6 +255,14 @@ void UGameSettingListEntrySetting_Scalar::HandleSliderValueChanged(float Value)
 
 	if (ensure(ScalarSetting))
 	{
+		const float OldValue = ScalarSetting->GetValueNormalized();
+		// 初始化刷新时，设置 ScalarSetting，会导致设置数据被标记为脏数据，但这是不应该的
+		// 通过判断组件的数值和设置的数值是否在允许误差内来排除这种情况
+		if (FMath::IsNearlyEqual(OldValue, Value, Tolerance))
+		{
+			return;
+		}
+
 		ScalarSetting->SetValueNormalized(Value);
 		Value = ScalarSetting->GetValueNormalized();
 

@@ -47,7 +47,7 @@ protected:
 	UE_API virtual void OnSettingChanged();
 	UE_API virtual void HandleEditConditionChanged(UGameSetting* InSetting);
 	UE_API virtual void RefreshEditableState(const FGameSettingEditableState& InEditableState);
-	
+
 protected:
 	// Focus transitioning to subwidgets for the gamepad
 	UE_API virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
@@ -82,8 +82,8 @@ class UGameSettingListEntry_Setting : public UGameSettingListEntryBase
 
 public:
 	UE_API virtual void SetSetting(UGameSetting* InSetting) override;
-	
-private:	// Bound Widgets
+
+private: // Bound Widgets
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, BlueprintProtected = true, AllowPrivateAccess = true))
 	TObjectPtr<UCommonTextBlock> Text_SettingName;
 };
@@ -100,7 +100,7 @@ class UGameSettingListEntrySetting_Discrete : public UGameSettingListEntry_Setti
 
 public:
 	UE_API virtual void SetSetting(UGameSetting* InSetting) override;
-	
+
 protected:
 	UE_API virtual void NativeOnInitialized() override;
 	UE_API virtual void NativeOnEntryReleased() override;
@@ -118,7 +118,7 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UGameSettingValueDiscrete> DiscreteSetting;
 
-private:	// Bound Widgets
+private: // Bound Widgets
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, BlueprintProtected = true, AllowPrivateAccess = true))
 	TObjectPtr<UPanelWidget> Panel_Value;
 
@@ -164,10 +164,13 @@ protected:
 	UE_API virtual void RefreshEditableState(const FGameSettingEditableState& InEditableState) override;
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="GameSettings")
+	float Tolerance = { UE_SMALL_NUMBER };
+
 	UPROPERTY()
 	TObjectPtr<UGameSettingValueScalar> ScalarSetting;
 
-private:	// Bound Widgets
+private: // Bound Widgets
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, BlueprintProtected = true, AllowPrivateAccess = true))
 	TObjectPtr<UPanelWidget> Panel_Value;
 
@@ -205,7 +208,7 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UGameSettingAction> ActionSetting;
 
-private:	// Bound Widgets
+private: // Bound Widgets
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, BlueprintProtected = true, AllowPrivateAccess = true))
 	TObjectPtr<UCommonButtonBase> Button_Action;
@@ -237,7 +240,7 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UGameSettingCollectionPage> CollectionSetting;
 
-private:	// Bound Widgets
+private: // Bound Widgets
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, BlueprintProtected = true, AllowPrivateAccess = true))
 	TObjectPtr<UCommonButtonBase> Button_Navigate;
