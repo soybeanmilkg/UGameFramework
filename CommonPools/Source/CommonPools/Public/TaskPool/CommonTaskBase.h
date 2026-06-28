@@ -71,9 +71,8 @@ public:
 	// 创建任务
 	UFUNCTION(BlueprintCallable, Category="CommonTaskPool", meta=(AdvancedDisplay="InTag,InPriority,InUserData"))
 	static UCommonTaskBase* CreateTask(
-		UObject* WorldContextObject, const int32 InSerialId, const TSubclassOf<UCommonTaskBase> InTaskClass,
-		UObject* InOuter = nullptr, const FGameplayTagContainer& InTags = FGameplayTagContainer(), const int32 InPriority = 0, UObject* InUserData = nullptr
-	);
+		const int32 InSerialId, const TSubclassOf<UCommonTaskBase> InTaskClass, UObject* InOuter = nullptr,
+		const FGameplayTagContainer& InTags = FGameplayTagContainer(), const int32 InPriority = 0, UObject* InUserData = nullptr);
 
 public:
 	// 是否完成

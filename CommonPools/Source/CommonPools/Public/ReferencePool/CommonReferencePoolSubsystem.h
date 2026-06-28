@@ -171,21 +171,27 @@ private:
 struct FCommonReferencePoolStatic
 {
 	template <class T>
-	static T* Acquire(UObject* WorldContextObject, const UClass* Class = nullptr, UObject* Outer = nullptr)
+	static T* Acquire(const UClass* Class = nullptr, UObject* Outer = nullptr)
 	{
-		if (const auto Subsystem = UCommonReferencePoolSubsystem::Get(WorldContextObject))
+		if (const UWorld* World = GEngine ? GEngine->GetCurrentPlayWorld() : nullptr)
 		{
-			return Subsystem->Acquire<T>(Class, Outer);
+			if (const auto Subsystem = UCommonReferencePoolSubsystem::Get(World))
+			{
+				return Subsystem->Acquire<T>(Class, Outer);
+			}
 		}
 
 		return nullptr;
 	}
 
-	static void Release(const UObject* WorldContextObject, UObject* InObject)
+	static void Release(UObject* InObject)
 	{
-		if (const auto Subsystem = UCommonReferencePoolSubsystem::Get(WorldContextObject))
+		if (const UWorld* World = GEngine ? GEngine->GetCurrentPlayWorld() : nullptr)
 		{
-			Subsystem->Release(InObject);
+			if (const auto Subsystem = UCommonReferencePoolSubsystem::Get(World))
+			{
+				Subsystem->Release(InObject);
+			}
 		}
 	}
 };

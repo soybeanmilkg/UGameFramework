@@ -6,10 +6,10 @@
 #include "ReferencePool/CommonReferencePoolSubsystem.h"
 
 UCommonTaskBase* UCommonTaskBase::CreateTask(
-	UObject* WorldContextObject, const int32 InSerialId, const TSubclassOf<UCommonTaskBase> InTaskClass,
-	UObject* InOuter, const FGameplayTagContainer& InTags, const int32 InPriority, UObject* InUserData)
+	const int32 InSerialId, const TSubclassOf<UCommonTaskBase> InTaskClass, UObject* InOuter,
+	const FGameplayTagContainer& InTags, const int32 InPriority, UObject* InUserData)
 {
-	UCommonTaskBase* Task = Cast<UCommonTaskBase>(FCommonReferencePoolStatic::Acquire<UCommonTaskBase>(WorldContextObject, InTaskClass, InOuter));
+	UCommonTaskBase* Task = Cast<UCommonTaskBase>(FCommonReferencePoolStatic::Acquire<UCommonTaskBase>(InTaskClass, InOuter));
 	Task->Initialize(InSerialId, InTags, InPriority, InUserData);
 	return Task;
 }

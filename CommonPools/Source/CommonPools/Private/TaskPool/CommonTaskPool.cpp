@@ -83,7 +83,7 @@ bool UCommonTaskPool::RemoveTask(const int32 SerialId)
 		{
 			WaitingTasks.RemoveAtSwap(i);
 			WaitingTasks.Heapify(FCommonTaskComparer {});
-			FCommonReferencePoolStatic::Release(this, Task);
+			FCommonReferencePoolStatic::Release(Task);
 			return true;
 		}
 	}
@@ -98,7 +98,7 @@ bool UCommonTaskPool::RemoveTask(const int32 SerialId)
 			WorkingAgent->Reset();
 			FreeAgents.Emplace(WorkingAgent);
 			WorkingAgents.RemoveAtSwap(i);
-			FCommonReferencePoolStatic::Release(this, Task);
+			FCommonReferencePoolStatic::Release(Task);
 			return true;
 		}
 	}
@@ -112,7 +112,7 @@ int32 UCommonTaskPool::RemoveTasks(const FGameplayTag& Tag)
 	{
 		if (ensureAlways(Task) && Task->HasMatchingGameplayTag(Tag))
 		{
-			FCommonReferencePoolStatic::Release(this, Task);
+			FCommonReferencePoolStatic::Release(Task);
 			return true;
 		}
 
@@ -133,7 +133,7 @@ int32 UCommonTaskPool::RemoveTasks(const FGameplayTag& Tag)
 			{
 				Agent->Reset();
 				FreeAgents.Emplace(Agent);
-				FCommonReferencePoolStatic::Release(this, Task);
+				FCommonReferencePoolStatic::Release(Task);
 				return true;
 			}
 		}
@@ -148,7 +148,7 @@ void UCommonTaskPool::ClearTasks()
 {
 	for (TObjectPtr<UCommonTaskBase>& Task : WaitingTasks)
 	{
-		FCommonReferencePoolStatic::Release(this, Task);
+		FCommonReferencePoolStatic::Release(Task);
 	}
 	WaitingTasks.Empty();
 
@@ -157,7 +157,7 @@ void UCommonTaskPool::ClearTasks()
 		UCommonTaskBase* Task = Agent->GetTask();
 		Agent->Reset();
 		FreeAgents.Emplace(Agent);
-		FCommonReferencePoolStatic::Release(this, Task);
+		FCommonReferencePoolStatic::Release(Task);
 	}
 	WorkingAgents.Empty();
 }
@@ -195,7 +195,7 @@ void UCommonTaskPool::HandleWorkingAgents(const float DeltaTime)
 		if (Task->IsDone())
 		{
 			WorkingAgent->Reset();
-			FCommonReferencePoolStatic::Release(this, Task);
+			FCommonReferencePoolStatic::Release(Task);
 			PendingReleaseAgents.Add(WorkingAgent);
 		}
 		else
@@ -250,7 +250,7 @@ void UCommonTaskPool::HandleWaitingTasks(const float DeltaTime)
 			// 任务执行结束或执行存在错误，释放任务对象
 			else if (Status == ECommonStartTaskStatus::Done || Status == ECommonStartTaskStatus::UnknownError)
 			{
-				FCommonReferencePoolStatic::Release(this, Task);
+				FCommonReferencePoolStatic::Release(Task);
 			}
 		}
 	}

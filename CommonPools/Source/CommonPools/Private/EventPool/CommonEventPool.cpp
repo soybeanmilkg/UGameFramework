@@ -148,7 +148,7 @@ void UCommonEventPool::HandleEvent(const FCommonEventData& Event)
 		}
 	}
 
-	FCommonReferencePoolStatic::Release(this, Event.EventArgs);
+	FCommonReferencePoolStatic::Release(Event.EventArgs);
 }
 
 void UCommonEventPool::InternalSubscribe(FCommonEventHandle& OutHandle, const TSubclassOf<UCommonEventArgsBase>& InEventClass, FCommonEventUnifiedDelegate&& InEventCallback, const bool bMatchChild)
